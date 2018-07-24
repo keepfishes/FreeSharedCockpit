@@ -1,2 +1,28 @@
 # FreeSharedCockpit
 An open source free XPlane 11 Shared cockpit plugin development 
+
+Hi Guys,
+
+I’m trying to develop a free and open source shared cockpit software that works with XP11. I have written my own python script to synchronise Xplane Datarefs across 2 computers over UDP protocol.
+
+I know that there are some available options out there for shared cockpit already, and the reason why I am doing this is because:
+
+1) JoinFS doesn't work for shared co﻿ckpit on XPlane 11, trust me, I've tried everything to make it work...
+
+2) Smartcopilot is way too expensive for single license
+
+3) Teamviewer and Discord Screenshare does not provide a shared cockpit experience
+
+4) An open source, free for all shared cockpit software that allows customisation would allow much more people to benefit from it, without paying a single cent. This is particularly useful for budding aviation enthusiasts that can't afford to spend extra and want to take lessons from online instructors e.g.: VATSIM ATOs but don't have a smart cockpit solution, which would make lessons so much easier and immersive if there were a shared cockpit.
+
+The laptop on the left is the slave, and is getting its position synced from the desktop. The command box that you see scrolling thru with all the numbers on the right is showing all the datarefs that are being sent to the other computer.
+
+So far I’ve managed to turn off the physics engine, to allow the desktop to manipulate the plane on the laptop to synchronise the X, Y and Z positions on the laptop. Next will be to synchronise the datarefs for heading and engine and cockpit switches.
+
+Once that is done, it will be a big step forward to realising a free shared cockpit software for Xplane that actually works!
+
+Anyone keen to help me in this project please let me know!! I’m keen to share all my code for free! The whole script is written in python, and if anyone more proficient is keen help me optimise the code, please let me know!
+
+The first file PI_Test_base.py is meant to be run as a python script using Sandy's PythonInterface plugin which extracts datarefs from Xplane and writes it to a file. The second python script Sender2.py uses the pickled data in the file and sends it over UDP to the other network computer via ports 49000 and 49001, and also receives incoming data from the other computer, and feeds it back to the PI_Test_base.py plugin. ﻿
+
+Would greatly appreciate any help!
