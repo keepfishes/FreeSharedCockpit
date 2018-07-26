@@ -5,17 +5,18 @@ Hi Guys,
 
 I’m trying to develop a free and open source shared cockpit software that works with XP11. I have written my own python script to synchronise Xplane Datarefs across 2 computers over UDP protocol.
 
-I know that there are some available options out there for shared cockpit already, and the reason why I am doing this is because:
-
+I know that there are alternatives out there for shared cockpit already, and the reason why I am doing this is because:
 1) JoinFS doesn't work for shared cockpit on XPlane 11, trust me, I've tried everything to make it work...
-
 2) Smartcopilot is way too expensive for single license
-
 3) Teamviewer and Discord Screenshare does not provide a shared cockpit experience
+4) An open source, free for all shared cockpit software that allows customisation would allow much more people to benefit from it, without paying a single cent.
 
-4) An open source, free for all shared cockpit software that allows customisation would allow much more people to benefit from it, without paying a single cent. This is particularly useful for budding aviation enthusiasts that can't afford to spend extra and want to take lessons from online instructors e.g.: VATSIM ATOs but don't have a smart cockpit solution, which would make lessons so much easier and immersive if there were a shared cockpit.
+The main target group of people that this program would potentially benefit are:
+1) Folks who play XPlane offline, but are too scared to go on VATSIM online. Flying shared cockpit where the instructor and student are in the same plane will allow splitting of the workload, making it a less daunting task - I would certainly love to have an instructor with me on my first VATSIM flight!
+2) Folks who are training for their VATSIM P ratings - discord screenshare or teamviewer is just inferior to a shared cockpit environment
+3) Folks who just want to have fun flying together in a crew
 
-An Xplane shared cockpit software is essentially a piece of software that syncs Xplane datarefs between 2 computers, such that moving the controls/switches on one computer causes a synchronised change on the other. 
+An XPlane shared cockpit software is essentially a piece of software that syncs Xplane datarefs between 2 computers, such that moving the controls/switches on one computer causes a synchronised change on the other. 
 
 As can be seen in the video below:
 
