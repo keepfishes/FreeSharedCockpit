@@ -17,18 +17,38 @@ I know that there are some available options out there for shared cockpit alread
 
 An Xplane shared cockpit software is essentially a piece of software that syncs Xplane datarefs between 2 computers, such that moving the controls/switches on one computer causes a synchronised change on the other. 
 
-The project as of now is at an early stage. I have tested it with LAN, and one computer is able to mirror the others' aircraft position in space. The next easy step would be to add more datarefs to be synchronised (aicraft attitude, heading and instruments).
-
 As can be seen in the video below:
 
-https://youtu.be/SLPtdesNDvw
+https://youtu.be/luqvsnya1GA
 
-The laptop on the left is the slave, and is getting its position synced from the desktop. The command box that you see scrolling thru with all the numbers on the right is showing all the datarefs that are being sent to the other computer.
+A big step forward now compared to the previous, aircraft attitude, heading and position are now synced exactly from master to slave. Again, the same setup, the laptop on the left is the slave computer, having the plane mirrored to the master Desktop on the right. Both sceneries look different because my laptop can only run on minimal settings while my desktop is running on high and you can see the ground features much better. 
 
-So far I’ve managed to turn off the physics engine, to allow the desktop to manipulate the plane on the laptop to synchronise the X, Y and Z positions on the laptop. Next will be to synchronise the datarefs for heading and engine and cockpit switches.
+Next steps would be to:
+1) Sync the aircraft position velocity of XYZ and rotational velocity PQR
+2) Allow toggle of control inputs between master and slave, the toggle button (on the master computer) should:
+- Slave: Enable the physics model
+- Master: Disable the physics model
+- Slave: Stop setting aircraft position, attitude, velocities from the master 
+- Master: Set aircraft position, attitude, velocities from the slave
+3) Untoggling the switch should perform the above but in reverse
+4) Create a GUI for the toggle button, Slave/Master IP address and Ports input box, connect button
+5) Sync the engine on/off state 
+6) Sync the cockpit/autopilot switches
+7) Optimise for speed - cut down precision of variables, code cleanup
+8) Write an instruction manual - required dependencies etc...
 
-Once that is done, it will be a big step forward to realising a free shared cockpit software for Xplane that actually works!
+>>> Once we reach this stage, it will be time to publish an early beta of the software!
 
-The first file PI_FreeSharedCockpit_plugin.py is meant to be placed in the PythonScripts folder in the plugins folder in the Xplane directory (with Sandy's PythonInterface plugin installed). This script extracts datarefs from Xplane and writes it to a file on C drive. The second python script FreeSharedCockpitUDPSender.py uses the pickled data in the file and sends it over UDP to the other network computer via ports 49000 and 49001, and also receives incoming data from the other computer, and feeds it back to the PI_FreeSharedCockpit_plugin.py plugin, which then effects a change in Xplane.
 
-Anyone keen to help me in this project please feel free to contribute!
+
+How to use:
+1) Edit both files FreeSharedCockpitUDPSenderMaster.py and FreeSharedCockpitUDPSenderSlave.py and change the ip address of the "host" variable to the IP address of the other computer you are trying to connect to. (i.e: Master should input the slave's IP and Slave should input the Master's IP)
+2) The PI_FreeSharedCockpit_pluginMaster.py script is to be placed in the PythonScripts folder under Xplane plugins folder on the Master computer, and the corresponding PI_FreeSharedCockpit_pluginSlave.py in the Xplane plugins folder on the Slave computer. 
+3) Run the FreeSharedCockpitUDPSenderMaster.py script using the command line on the master computer and FreeSharedCockpitUDPSenderSlave.py on the slave computer.
+4) Load up Xplane on both master and slave at same airport (does not need to be the exact same location at the airport) and make sure that both have the exact same scenery
+5) On the slave computer, click on the dialog box once to start syncing the position of the slave to the master computer, the state of the aircraft on the slave computer will snap to reflect that on the master computer. Click the dialog box again to unsync.
+6) Start flying on the master computer, the aircraft on the slave computer will be synced!
+
+
+
+Anyone keen to help me in this project please feel free to contribute! Thanks for viewing!
