@@ -25,7 +25,7 @@ https://youtu.be/luqvsnya1GA
 A big step forward now compared to the previous, aircraft attitude, heading and position are now synced exactly from master to slave. Again, the same setup, the laptop on the left is the slave computer, having the plane mirrored to the master Desktop on the right. Both sceneries look different because my laptop can only run on minimal settings while my desktop is running on high and you can see the ground features much better. 
 
 Next steps would be to:
-1) Sync the aircraft position velocity of XYZ and rotational velocity PQR
+1) Create a single common script file for both master and slave computers
 2) Allow toggle of control inputs between master and slave, the toggle button (on the master computer) should:
 - Slave: Enable the physics model
 - Master: Disable the physics model
