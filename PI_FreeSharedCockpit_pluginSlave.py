@@ -48,7 +48,8 @@ class PythonInterface:
         left = int(lLeft[0]); top = int(lTop[0]); right = int(lRight[0]); bottom = int(lBottom[0])
         XPLMDrawTranslucentDarkBox(left, top, right, bottom)
         color = 1.0, 1.0, 1.0
-
+        
+        # Access in sim variables
         AccessorDataRefX = XPLMFindDataRef("sim/flightmodel/position/local_x")
         DataX = XPLMGetDataf(AccessorDataRefX)
         AccessorDataRefY = XPLMFindDataRef("sim/flightmodel/position/local_y")
@@ -61,13 +62,34 @@ class PythonInterface:
         DataTheta = XPLMGetDataf(AccessorDataRefTheta)
         AccessorDataRefPhi = XPLMFindDataRef("sim/flightmodel/position/phi")
         DataPhi = XPLMGetDataf(AccessorDataRefPhi)
+        AccessorDataRefP = XPLMFindDataRef("sim/flightmodel/position/P")
+        DataP = XPLMGetDataf(AccessorDataRefP)
+        AccessorDataRefQ = XPLMFindDataRef("sim/flightmodel/position/Q")
+        DataQ = XPLMGetDataf(AccessorDataRefQ)
+        AccessorDataRefR = XPLMFindDataRef("sim/flightmodel/position/R")
+        DataR = XPLMGetDataf(AccessorDataRefR)
+        AccessorDataRefVX = XPLMFindDataRef("sim/flightmodel/position/local_vx")
+        DataVX = XPLMGetDataf(AccessorDataRefVX)
+        AccessorDataRefVY = XPLMFindDataRef("sim/flightmodel/position/local_vy")
+        DataVY = XPLMGetDataf(AccessorDataRefVY)
+        AccessorDataRefVZ = XPLMFindDataRef("sim/flightmodel/position/local_vz")
+        DataVZ = XPLMGetDataf(AccessorDataRefVZ)
 
+        # Export in sim data to other comp
         global DataRx
-        DataTx = [DataX, DataY, DataZ, DataPsi, DataTheta, DataPhi]
+        DataTx = [DataX, DataY, DataZ, DataPsi, DataTheta, DataPhi, DataP, DataQ, DataR, DataVX, DataVY, DataVZ]
         outfile = open('C:/1.fll', 'w')
         pickle.dump(DataTx, outfile)
         outfile.close()
 
+        try:
+            infile = open('C:/2.fll', 'r')
+            DataRx = pickle.load(infile)
+        except:
+            pass
+
+        # Slave specific script
+        # Sync the position of the slave to the master when box is clicked
         if self.Clicked:
             global sync
             sync = not sync
@@ -88,17 +110,21 @@ class PythonInterface:
                 XPLMSetDataf(AccessorDataRefPsi, DataRx[3])
                 XPLMSetDataf(AccessorDataRefTheta, DataRx[4])
                 XPLMSetDataf(AccessorDataRefPhi, DataRx[5])
+                XPLMSetDataf(AccessorDataRefP, DataRx[6])
+                XPLMSetDataf(AccessorDataRefQ, DataRx[7])
+                XPLMSetDataf(AccessorDataRefR, DataRx[8])
+                XPLMSetDataf(AccessorDataRefVX, DataRx[9])
+                XPLMSetDataf(AccessorDataRefVY, DataRx[10])
+                XPLMSetDataf(AccessorDataRefVZ, DataRx[11])
+                
             except:
                 pass
         else:
             pass
 
-        try:
-            infile = open('C:/2.fll', 'r')
-            DataRx = pickle.load(infile)
-        except:
-            pass
 
+
+        # Common script for both master and slave
         DescTx = 'Tx: ' + str(DataTx)
         DescRx = 'Rx: ' + str(DataRx)
         XPLMDrawString(color, left + 5, top - 10, DescTx, 0, xplmFont_Basic)
