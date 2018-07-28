@@ -7,13 +7,13 @@ import pickle
 import os
 
 DataRx = []
+sync = False
 
 filename = 'C:/2.fll'
 try:
     os.remove(filename)
 except OSError:
     print('Cant remove file!')
-
 
 class PythonInterface:
 
@@ -49,6 +49,7 @@ class PythonInterface:
         XPLMDrawTranslucentDarkBox(left, top, right, bottom)
         color = 1.0, 1.0, 1.0
 
+        # Access in sim variables
         AccessorDataRefX = XPLMFindDataRef("sim/flightmodel/position/local_x")
         DataX = XPLMGetDataf(AccessorDataRefX)
         AccessorDataRefY = XPLMFindDataRef("sim/flightmodel/position/local_y")
@@ -61,29 +62,35 @@ class PythonInterface:
         DataTheta = XPLMGetDataf(AccessorDataRefTheta)
         AccessorDataRefPhi = XPLMFindDataRef("sim/flightmodel/position/phi")
         DataPhi = XPLMGetDataf(AccessorDataRefPhi)
+        AccessorDataRefP = XPLMFindDataRef("sim/flightmodel/position/P")
+        DataP = XPLMGetDataf(AccessorDataRefP)
+        AccessorDataRefQ = XPLMFindDataRef("sim/flightmodel/position/Q")
+        DataQ = XPLMGetDataf(AccessorDataRefQ)
+        AccessorDataRefR = XPLMFindDataRef("sim/flightmodel/position/R")
+        DataR = XPLMGetDataf(AccessorDataRefR)
+        AccessorDataRefVX = XPLMFindDataRef("sim/flightmodel/position/local_vx")
+        DataVX = XPLMGetDataf(AccessorDataRefVX)
+        AccessorDataRefVY = XPLMFindDataRef("sim/flightmodel/position/local_vy")
+        DataVY = XPLMGetDataf(AccessorDataRefVY)
+        AccessorDataRefVZ = XPLMFindDataRef("sim/flightmodel/position/local_vz")
+        DataVZ = XPLMGetDataf(AccessorDataRefVZ)
 
+        # Export in sim data to other comp
         global DataRx
-        DataTx = [DataX, DataY, DataZ, DataPsi, DataTheta, DataPhi]
+        DataTx = [DataX, DataY, DataZ, DataPsi, DataTheta, DataPhi, DataP, DataQ, DataR, DataVX, DataVY, DataVZ]
         outfile = open('C:/1.fll', 'w')
         pickle.dump(DataTx, outfile)
         outfile.close()
+
         try:
             infile = open('C:/2.fll', 'r')
             DataRx = pickle.load(infile)
         except:
             print('IOError')
 
-        #XPLMSetDataf(AccessorDataRefX, DataRx[0])
-        #XPLMSetDataf(AccessorDataRefY, DataRx[1])
-        #XPLMSetDataf(AccessorDataRefZ, DataRx[2])
-        #XPLMSetDataf(AccessorDataRefPsi, DataRx[3])
-        #XPLMSetDataf(AccessorDataRefTheta, DataRx[4])
-        #XPLMSetDataf(AccessorDataRefPhi, DataRx[5])
 
-        #PhysicsRef = XPLMFindDataRef("sim/operation/override/override_planepath")
-        #ovrd_Vals = [1]
-        #XPLMSetDatavi(PhysicsRef, ovrd_Vals, 0, 1)
 
+        # Common script for both master and slave
         DescTx = 'Tx: ' + str(DataTx)
         DescRx = 'Rx: ' + str(DataRx)
         XPLMDrawString(color, left + 5, top - 10, DescTx, 0, xplmFont_Basic)
