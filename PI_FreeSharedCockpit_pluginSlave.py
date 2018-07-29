@@ -48,7 +48,7 @@ class PythonInterface:
         left = int(lLeft[0]); top = int(lTop[0]); right = int(lRight[0]); bottom = int(lBottom[0])
         XPLMDrawTranslucentDarkBox(left, top, right, bottom)
         color = 1.0, 1.0, 1.0
-        
+
         # Access in sim variables
         AccessorDataRefX = XPLMFindDataRef("sim/flightmodel/position/local_x")
         DataX = XPLMGetDataf(AccessorDataRefX)
@@ -75,19 +75,6 @@ class PythonInterface:
         AccessorDataRefVZ = XPLMFindDataRef("sim/flightmodel/position/local_vz")
         DataVZ = XPLMGetDataf(AccessorDataRefVZ)
 
-        # Export in sim data to other comp
-        global DataRx
-        DataTx = [DataX, DataY, DataZ, DataPsi, DataTheta, DataPhi, DataP, DataQ, DataR, DataVX, DataVY, DataVZ]
-        outfile = open('C:/1.fll', 'w')
-        pickle.dump(DataTx, outfile)
-        outfile.close()
-
-        try:
-            infile = open('C:/2.fll', 'r')
-            DataRx = pickle.load(infile)
-        except:
-            pass
-
         # Slave specific script
         # Sync the position of the slave to the master when box is clicked
         if self.Clicked:
@@ -98,7 +85,6 @@ class PythonInterface:
                 PhysicsRef = XPLMFindDataRef("sim/operation/override/override_planepath")
                 ovrd_Vals = [0]
                 XPLMSetDatavi(PhysicsRef, ovrd_Vals, 0, 1)
-
         if sync == True:
             try:
                 PhysicsRef = XPLMFindDataRef("sim/operation/override/override_planepath")
@@ -116,12 +102,11 @@ class PythonInterface:
                 XPLMSetDataf(AccessorDataRefVX, DataRx[9])
                 XPLMSetDataf(AccessorDataRefVY, DataRx[10])
                 XPLMSetDataf(AccessorDataRefVZ, DataRx[11])
-                
             except:
                 pass
         else:
             pass
-
+        # End of slave specific script
 
 
         # Common script for both master and slave

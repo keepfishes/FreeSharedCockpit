@@ -75,19 +75,18 @@ class PythonInterface:
         AccessorDataRefVZ = XPLMFindDataRef("sim/flightmodel/position/local_vz")
         DataVZ = XPLMGetDataf(AccessorDataRefVZ)
 
-        # Export in sim data to other comp
+        # Master script
         global DataRx
         DataTx = [DataX, DataY, DataZ, DataPsi, DataTheta, DataPhi, DataP, DataQ, DataR, DataVX, DataVY, DataVZ]
         outfile = open('C:/1.fll', 'w')
         pickle.dump(DataTx, outfile)
         outfile.close()
-
         try:
             infile = open('C:/2.fll', 'r')
             DataRx = pickle.load(infile)
         except:
             print('IOError')
-
+        # End of master script
 
 
         # Common script for both master and slave
